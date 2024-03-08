@@ -7,7 +7,9 @@ const ensureDirectoryExists = (dirPath) => {
     if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
         console.log(`raw_data not found, created at: ${dirPath}`);
+        return false;
     }
+    return true;
 };
 
 const extractZip = (zipFilePath, extractToPath) => {
