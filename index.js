@@ -8,6 +8,7 @@ const extractToPath = './raw_data/';
 
 const downloadAndProcessDataset = async () => {
     try {
+        utils.ensureDirectoryExists('./raw_data');
         await kaggle_api.downloadDataset(kaggleDatasetUrl, zipFilePath);
         await utils.extractZip(zipFilePath, extractToPath);
         await utils.deleteFile(zipFilePath);
