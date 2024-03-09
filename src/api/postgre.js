@@ -27,8 +27,10 @@ const executeSqlFile = async (filePath) => {
 };
 
 const initDb = async () => {
+    console.log('Initializing postgres db & setting up schema...');
     await executeSqlFile('../sql/create_artists_table.sql');
     await executeSqlFile('../sql/create_tracks_table.sql');
+    console.log('Postgres initialization process complete!');
 };
 
 module.exports = {
