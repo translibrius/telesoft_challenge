@@ -15,7 +15,7 @@ const dictPath = './raw_data/dict_artist.json';
 
 const parseDataset = async () => {
     try {
-        const { filteredTracks, artistIds } = await parseTracks();
+        const { tracks: filteredTracks, artistIds } = await parseTracks();
         const filteredArtists = await parseArtists(artistIds);
         return { filteredTracks, filteredArtists };
     } catch (parseErr) {

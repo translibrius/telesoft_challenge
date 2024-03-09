@@ -2,11 +2,11 @@ const adm_zip = require('adm-zip');
 const fs = require('fs');
 const path = require('path');
 
-const ensureDirectoryExists = (dirPath) => {
-    console.log('Checking if raw_data folder exits...');
+const ensureDirectoryExists = async (dirPath) => {
+    console.log(`Checking if ${dirPath} exits...`);
     if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
-        console.log(`raw_data not found, created at: ${dirPath}`);
+        console.log(`Directory not found, created at: ${dirPath}`);
         return false;
     }
     return true;
