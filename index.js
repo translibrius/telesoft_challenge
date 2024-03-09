@@ -32,17 +32,17 @@ const downloadDataAndUnzip = async () => {
 
 const main = async () => {
     try {
-        await downloadDataAndUnzip();
+        //await downloadDataAndUnzip();
 
-        const { filteredTracks, filteredArtists } = await parsing.parseDataset();
+        //const { filteredTracks, filteredArtists } = await parsing.parseDataset();
 
-        await saver.saveDataToJson(filteredArtists, './processed_data/', 'artists.json');
+        //await saver.saveDataToJson(filteredArtists, './processed_data/', 'artists.json');
 
-        await saver.saveDataToJson(filteredTracks, './processed_data/', 'tracks.json');
+        //await saver.saveDataToJson(filteredTracks, './processed_data/', 'tracks.json');
 
-        await aws_api.uploadFile(bucket, 'artists', './processed_data/artists.json');
+        //await aws_api.uploadFile(bucket, 'artists', './processed_data/artists.json');
 
-        await aws_api.uploadFile(bucket, 'tracks', './processed_data/tracks.json');
+        //await aws_api.uploadFile(bucket, 'tracks', './processed_data/tracks.json');
 
         await postgres.initDb();
     } catch (error) {
