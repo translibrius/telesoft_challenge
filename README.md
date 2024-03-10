@@ -1,11 +1,35 @@
 
 # Telesoft Challenge
 
-Node.js script to download, clean up and organize Spotify datasets and SQL for data analysis.
+Node.js script to download, clean up and organize Spotify datasets and SQL for data analysis
 
-# Setup instructions
+## Prerequisites
 
-Todo
+- Either Docker + Docker Compose **OR** Node v20.0.11 & Postgresql 16 installed
+- An AWS account
+
+## Setup instructions
+
+Clone this repo `git clone https://github.com/translibrius/telesoft_challenge.git`
+Import the **.env** or **docker-compose.yaml** (if using docker) template to the project root directory attached to submission email and change AWS credentials or simply use my AWS config.
+
+Next, if using your own AWS account, set-up AWS S3 bucket,
+Set-up AWS IAM user, making sure to enable `Provide user access to the AWS Management Console` -> `User Type` -> Select **I want to create an IAM user** -> Choose a password -> Next -> Permissions -> Select `Attach policies directly` -> From permissions list select **AmazonS3FullAccess** -> Create User.
+Then go back to users list and select newly created user -> Security Credentials -> Create Access Key -> Local code -> Next > Create.
+Now If using docker, replace existing AWS credentials with IAM user details and S3 bucket details in `docker-compose.yaml`
+If using regular Node.js replace existing AWS credentials with IAM user details and S3 bucket details in `.env`
+
+Any other `.env` or `.docker-compose.yaml` changes you want, take care because this can easily break the script upon a mistake! ( Don't recommend chaning kaggle api credentials ).
+
+Next, for docker:
+
+    bash > docker-compose up --build
+
+For using Node v20.0.11 and Postgresql 16:
+
+    bash > npm start
+
+The docker version by default will also set-up pgadmin, which you can use to evaluate the database and my sql views, or otherwise connect to the db with psql Shell.
 
 # Dev notes
 
