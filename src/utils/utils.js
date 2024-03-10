@@ -20,6 +20,7 @@ const allFilesExist = (dirPath, files) => {
     });
 };
 
+// Extracts the downloaded dataset.zip from kaggle using adm_zip module
 const extractZip = (zipFilePath, extractToPath) => {
     console.log('Extracting dataset...');
     return new Promise((resolve, reject) => {
@@ -52,28 +53,8 @@ const deleteFile = (filePath) => {
     });
 };
 
-// Filters out non unique data from an array by checking data.id
-function ensureUnique(data) {
-    const seenIds = new Set();
-    let duplicateCount = 0;
-
-    const uniqueData = data.filter(item => {
-        if (seenIds.has(item.id)) {
-            duplicateCount += 1;
-            return false; // duplicate found
-        } else {
-            seenIds.add(item.id);
-            return true;
-        }
-    });
-
-    console.log(`Found and removed ${duplicateCount} duplicate(s).`);
-    return {
-        uniqueData
-    };
-}
-
 // Replaces [ ] with { } and removes any " found.
+// Postgres only accepts arrays with {}
 const formatStringArrayForPostgres = (arrayString) => {
     if (arrayString.startsWith('[') && arrayString.endsWith(']')) {
         arrayString = '{' + arrayString.substring(1, arrayString.length - 1) + '}';
@@ -87,7 +68,6 @@ module.exports = {
     ensureDirectoryExists,
     allFilesExist,
     extractZip,
-    ensureUnique,
     formatStringArrayForPostgres,
     deleteFile,
 };

@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const fs = require('node:fs');
-
 const AWS = require('aws-sdk');
 
 AWS.config.update({

@@ -11,7 +11,6 @@ const parse = require('csv-parse');
 
 const artistsPath = './raw_data/artists.csv';
 const tracksPath = './raw_data/tracks.csv';
-const dictPath = './raw_data/dict_artist.json';
 
 const parseDataset = async () => {
     try {
@@ -23,6 +22,7 @@ const parseDataset = async () => {
     }
 };
 
+// Parses through tracks from raw csv data to memory, using csv-parse module.
 const parseTracks = () => {
     console.log('Parsing tracks.csv...');
     return new Promise((resolve, reject) => {
@@ -78,6 +78,7 @@ const parseTracks = () => {
     });
 };
 
+// Parses through artists from raw csv data to memory, using csv-parse module.
 const parseArtists = (artistIds) => {
     console.log('Parsing artists.csv...');
     return new Promise((resolve, reject) => {

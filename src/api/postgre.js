@@ -2,7 +2,6 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
-const utils = require('../utils/utils');
 
 const pool = new Pool({
     user: process.env.POSTGRES_USER,
@@ -61,14 +60,15 @@ const insertTrackToArtistsFromCsv = async () => {
     await copyFromCSV(tracksCsvPath, 'track_artists');
 };
 
+// Basic tables with no schema
 const initDb = async () => {
     console.log('Initializing postgres db & setting up schema...');
     await executeSqlFile('../sql/create_artists_table.sql');
     await executeSqlFile('../sql/create_tracks_table.sql');
 
-    // Junction table for many-to-many relationship
+    // Junction table
     await executeSqlFile('../sql/create_tracks_artists_table.sql');
-    console.log('Postgres initialization process complete!');
+    console.log('Postgres table creation process complete!');
 };
 
 const disconnectDb = async () => {
@@ -78,9 +78,6 @@ const disconnectDb = async () => {
 
 module.exports = {
     initDb,
-    //insertTracks,
-    //insertArtists,
-    //insertTrackArtists,
     insertArtistsFromCSV,
     insertTracksFromCSV,
     insertTrackToArtistsFromCsv,

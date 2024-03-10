@@ -1,10 +1,9 @@
+// src/api/
 const saver = require('./src/io/save_data');
 const postgres = require('./src/api/postgre');
-
 const parsing = require('./src/io/parse');
-
-// AWS
 const aws_api = require('./src/api/aws');
+
 const bucket = process.env.AWS_S3_BUCKET_NAME;
 
 const main = async () => {

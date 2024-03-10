@@ -13,11 +13,12 @@ const KAGGLE_USERNAME = process.env.KAGGLE_USERNAME;
 const KAGGLE_KEY = process.env.KAGGLE_KEY;
 const KAGGLE_BASE_URL = 'https://www.kaggle.com/api/v1/datasets/download/';
 
-// Basic auth token (Kaggle API)
+// Basic auth token (Kaggle API) they want user:apikey format in base64
 const getBasicAuthToken = (username, key) => {
     return 'Basic ' + Buffer.from(`${username}:${key}`).toString('base64');
-  };
-  
+};
+
+// Downloads whole dataset as a zip from specified URL to specified path
 const downloadDataset = async (datasetUrl, savePath) => {
     const url = KAGGLE_BASE_URL + datasetUrl;
 
@@ -48,7 +49,7 @@ const downloadDataset = async (datasetUrl, savePath) => {
 
         return new Promise((resolve, reject) => {
         writer.on('finish', () => {
-            // Clear the line and print the final message.
+            // Clear the Downloading n% line and print the final message.
             process.stdout.write("\r\x1b[K");
             console.log('Download finished!');
             resolve();

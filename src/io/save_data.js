@@ -1,7 +1,8 @@
 const fs = require('node:fs');
-const utils = require('../utils/utils');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const path = require('path');
+
+const utils = require('../utils/utils');
 
 // For kaggle downloading
 const kaggle_api = require('../api/kaggle');
@@ -31,6 +32,7 @@ const downloadDataAndUnzip = async () => {
     }
 };
 
+// Bundles the processed data save operation into one function while checking if it already exists.
 const saveProcessedData = async (filteredTracks, filteredArtists) => {
     processed_data_exists = await utils.ensureDirectoryExists('./processed_data/');
     const expectedFiles = ['tracks.csv', 'artists.csv', 'track_artists.csv'];
@@ -48,14 +50,7 @@ const saveProcessedData = async (filteredTracks, filteredArtists) => {
     }
 };
 
-const saveDataToJson = async (data, directory, filename) => {
-    try {
-        fs.writeFileSync(directory+filename, JSON.stringify(data, null));
-    } catch (err) {
-        console.error(`Error saving data to JSON: ${err}`);
-    }
-};
-
+// Saves processed data from memory to CSV (instead of downloading from S3 again)
 const saveDataToCsv = async (data, directory, filename) => {
     const fullPath = path.join(directory, filename);
 
@@ -98,6 +93,7 @@ const saveDataToCsv = async (data, directory, filename) => {
     }
 };
 
+// Saves processed data from memory to CSV for SQL junction relationship
 const saveTrackToArtistsCsv = async (tracksData, validArtistIds, directory, filename) => {
     const fullPath = path.join(directory, filename);
     let trackArtistPairs = [];
@@ -137,7 +133,6 @@ const saveTrackToArtistsCsv = async (tracksData, validArtistIds, directory, file
 };
 
 module.exports = {
-    saveDataToJson,
     saveDataToCsv,
     saveTrackToArtistsCsv,
     downloadDataAndUnzip,
