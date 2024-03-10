@@ -7,6 +7,7 @@ const path = require('path');
 const kaggle_api = require('../api/kaggle');
 const kaggleDatasetUrl = 'yamaerenay/spotify-dataset-19212020-600k-tracks';
 const zipFilePath = './raw_data/dataset.zip';
+const uselessFilePath = './raw_data/dict_artists.json'; // We get this together with useful data in zip, but we dont need it
 const extractToPath = './raw_data/';
 
 // Downloads dataset from Kaggle and unzips it inside ./raw_data
@@ -21,6 +22,7 @@ const downloadDataAndUnzip = async () => {
             await kaggle_api.downloadDataset(kaggleDatasetUrl, zipFilePath);
             await utils.extractZip(zipFilePath, extractToPath);
             await utils.deleteFile(zipFilePath);
+            await utils.deleteFile(uselessFilePath);
         } else {
             console.log('Found raw_data, skipping download...');
         }

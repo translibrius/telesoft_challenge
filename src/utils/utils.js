@@ -38,7 +38,7 @@ const extractZip = (zipFilePath, extractToPath) => {
 };
 
 const deleteFile = (filePath) => {
-    console.log('Removing dataset zip...');
+    console.log(`Deleting ${filePath}...`);
     return new Promise((resolve, reject) => {
       fs.unlink(filePath, (err) => {
         if (err) {
@@ -46,7 +46,7 @@ const deleteFile = (filePath) => {
           reject(err);
           return;
         } 
-        console.log(`Removed  ${filePath}.`);
+        console.log(`Deleted  ${filePath}.`);
         resolve();
       });
     });
