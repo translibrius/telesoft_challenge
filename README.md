@@ -5,7 +5,7 @@ Node.js script to download, clean up and organize Spotify datasets and SQL for d
 
 ## Prerequisites
 
-- Either Docker + Docker Compose **OR** Node v20.0.11 & Postgresql 16 installed
+- Either Docker + Docker Compose (Recommended) **OR** Node v20.0.11 & Postgresql 16 installed
 - An AWS account
 
 ## Setup instructions

@@ -93,10 +93,6 @@ const saveDataToCsv = async (data, directory, filename) => {
     try {
         await csvWriter.writeRecords(formattedData); // Use formattedData here
         console.log(`Data saved to CSV at ${fullPath}`);
-        fs.chmod(fullPath, 0o644, (err) => { // Gives read/write to owner and read to group and others
-            if (err) throw err;
-            console.log(`Adjusted permissions for ${fullPath}`);
-        });
     } catch (err) {
         console.error(`Error saving data to CSV: ${err}`);
     }
@@ -135,10 +131,6 @@ const saveTrackToArtistsCsv = async (tracksData, validArtistIds, directory, file
     try {
         await csvWriter.writeRecords(trackArtistPairs);
         console.log(`Track-artist relationship data saved to CSV at ${fullPath}`);
-        fs.chmod(fullPath, 0o644, (err) => { // Gives read/write to owner and read to group and others
-            if (err) throw err;
-            console.log(`Adjusted permissions for ${fullPath}`);
-        });
     } catch (err) {
         console.error(`Error saving track-artist relationship data to CSV: ${err}`);
     }
