@@ -2,3 +2,4 @@ node_modules/
 raw_data/
 processed_data/
 .env
+docker-compose.yaml

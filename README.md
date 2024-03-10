@@ -15,7 +15,7 @@ Decided to make use of Kaggle's [API](https://github.com/Kaggle/kaggle-api) to d
  
 ### Aurora VS local Postgresql
 Decided to go with local Postgresql because of the potential fee's of running AWS Aurora while developing this project, as it is excluded from the AWS free-tier services.
->****Load data from S3 into locally hosted PostgreSQL. Bonus if you load the data into AWS Aurora instead.**
+>**Load data from S3 into locally hosted PostgreSQL. Bonus if you load the data into AWS Aurora instead.**
 
 ### S3 download vs Local files
 The script processes and transforms the dataset, uploads it to S3, then I'm left with a decision to either download the dataset that I just uploaded in order to load it into local Postgresql or simply use the processed data that still exists in local files.

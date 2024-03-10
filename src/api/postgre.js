@@ -2,6 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
+const utils = require('../utils/utils');
 
 const pool = new Pool({
     user: process.env.POSTGRES_USER,
@@ -26,13 +27,62 @@ const executeSqlFile = async (filePath) => {
     }
 };
 
+const copyFromCSV = async (csvFilePath, tableName) => {
+    const client = await pool.connect();
+
+    try {
+        const copyCommand = `COPY ${tableName} FROM '${csvFilePath}' WITH CSV HEADER`;
+        await client.query(copyCommand);
+        console.log(`Successfully loaded data into ${tableName} from ${csvFilePath}.`);
+    } catch (error) {
+        if (error.code === '23505' && error.detail.includes('already exists')) {
+            console.log(`Table ${tableName} has data that conflicts.
+            Consider clearing this table and restarting this script. Err: ${error.detail}`);
+        } else {
+            console.error('Error during the copy operation:', error);
+        }
+    } finally {
+        client.release();
+    }
+};
+
+const insertArtistsFromCSV = async () => {
+    const artistsCsvPath = path.join(__dirname, '../../processed_data/artists.csv');
+    await copyFromCSV(artistsCsvPath, 'artists');
+};
+
+const insertTracksFromCSV = async () => {
+    const tracksCsvPath = path.join(__dirname, '../../processed_data/tracks.csv');
+    await copyFromCSV(tracksCsvPath, 'tracks');
+};
+
+const insertTrackToArtistsFromCsv = async () => {
+    const tracksCsvPath = path.join(__dirname, '../../processed_data/track_artists.csv');
+    await copyFromCSV(tracksCsvPath, 'track_artists');
+};
+
 const initDb = async () => {
     console.log('Initializing postgres db & setting up schema...');
     await executeSqlFile('../sql/create_artists_table.sql');
     await executeSqlFile('../sql/create_tracks_table.sql');
+
+    // Junction table for many-to-many relationship
+    await executeSqlFile('../sql/create_tracks_artists_table.sql');
     console.log('Postgres initialization process complete!');
+};
+
+const disconnectDb = async () => {
+    console.log('Disconnecting postgres pool');
+    await pool.end();
 };
 
 module.exports = {
     initDb,
+    //insertTracks,
+    //insertArtists,
+    //insertTrackArtists,
+    insertArtistsFromCSV,
+    insertTracksFromCSV,
+    insertTrackToArtistsFromCsv,
+    disconnectDb,
 };

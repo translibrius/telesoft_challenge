@@ -9,7 +9,15 @@ const ensureDirectoryExists = async (dirPath) => {
         console.log(`Directory not found, created at: ${dirPath}`);
         return false;
     }
+    console.log(`${dirPath} exists, proceeding...`);
     return true;
+};
+
+const allFilesExist = (dirPath, files) => {
+    return files.every(file => {
+        const filePath = path.join(dirPath, file);
+        return fs.existsSync(filePath);
+    });
 };
 
 const extractZip = (zipFilePath, extractToPath) => {
@@ -44,8 +52,42 @@ const deleteFile = (filePath) => {
     });
 };
 
+// Filters out non unique data from an array by checking data.id
+function ensureUnique(data) {
+    const seenIds = new Set();
+    let duplicateCount = 0;
+
+    const uniqueData = data.filter(item => {
+        if (seenIds.has(item.id)) {
+            duplicateCount += 1;
+            return false; // duplicate found
+        } else {
+            seenIds.add(item.id);
+            return true;
+        }
+    });
+
+    console.log(`Found and removed ${duplicateCount} duplicate(s).`);
+    return {
+        uniqueData
+    };
+}
+
+// Replaces [ ] with { } and removes any " found.
+const formatStringArrayForPostgres = (arrayString) => {
+    if (arrayString.startsWith('[') && arrayString.endsWith(']')) {
+        arrayString = '{' + arrayString.substring(1, arrayString.length - 1) + '}';
+    }
+
+    arrayString = arrayString.replaceAll(/"/g, '');
+    return arrayString;
+};
+
 module.exports = {
     ensureDirectoryExists,
+    allFilesExist,
     extractZip,
-    deleteFile
+    ensureUnique,
+    formatStringArrayForPostgres,
+    deleteFile,
 };

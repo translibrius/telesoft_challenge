@@ -1,0 +1,9 @@
+**/node_modules/
+raw_rata
+processed_data
+.README.md
+.git
+.gitignore
+npm-debug.log
+.env
+.aws
